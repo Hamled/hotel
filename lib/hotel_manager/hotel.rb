@@ -1,3 +1,5 @@
+require 'set'
+
 class HotelManager::Hotel
   attr_reader :reservations
 
@@ -6,13 +8,13 @@ class HotelManager::Hotel
   end
 
   def rooms
-    Array(1..20)
+    Set.new(1..20)
   end
 
   def reserve!(date_range)
     raise ArgumentError.new("A valid DateRange must be provided to reserve a room") unless date_range.is_a? DateRange
 
-    reservation = Reservation.new(date_range, rooms.sample)
+    reservation = Reservation.new(date_range, rooms.to_a.sample)
     @reservations << reservation
 
     return reservation
