@@ -49,4 +49,36 @@ describe DateRange do
       @range.include?(@end).must_equal false
     end
   end
+
+  describe "#overlap?" do
+    it "returns true if the given date range overlaps this one" do
+      overlaps = [
+        [@begin    , @end    ], # Overlapping exactly
+        [@begin - 1, @end - 1], # Overlapping beginning
+        [@begin + 1, @end + 1], # Overlapping end
+        [@begin + 1, @end - 1], # Overlapping subset
+        [@begin - 1, @end + 1], # Overlapping superset
+      ]
+
+      overlaps.each do |(begin_date, end_date)|
+        overlapping = DateRange.new(begin_date, end_date)
+
+        @range.overlap?(overlapping).must_equal true
+      end
+    end
+
+    it "returns false if the given date range does not overlap this one" do
+      no_overlaps = [
+        [@begin - 3, @begin - 1], # Non-overlapping earlier
+        [@end   + 1, @end   + 3], # Non-overlapping later
+        [@end      , @end   + 3], # Non-overlapping starting on end date
+      ]
+
+      no_overlaps.each do |(begin_date, end_date)|
+        no_overlapping = DateRange.new(begin_date, end_date)
+
+        @range.overlap?(no_overlapping).must_equal false
+      end
+    end
+  end
 end

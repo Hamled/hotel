@@ -13,4 +13,8 @@ class HotelManager::DateRange < Range
     exclude_end = true
     super(begin_date, end_date, exclude_end)
   end
+
+  def overlap?(date_range)
+    include?(date_range.begin) || date_range.include?(self.begin)
+  end
 end
