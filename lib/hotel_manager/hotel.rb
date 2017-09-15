@@ -12,7 +12,7 @@ class HotelManager::Hotel
   def reserve!(date_range)
     raise ArgumentError.new("A valid DateRange must be provided to reserve a room") unless date_range.is_a? DateRange
 
-    reservation = Reservation.new(date_range)
+    reservation = Reservation.new(date_range, rooms.sample)
     @reservations << reservation
 
     return reservation
