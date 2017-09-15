@@ -34,5 +34,14 @@ describe Hotel do
       reservation.must_be_kind_of Reservation
       reservation.date_range.must_equal @range
     end
+
+    it "adds a reservation to the Hotel's reservations collection" do
+      reservations_before = @hotel.reservations.count
+
+      reservation = @hotel.reserve!(@range)
+
+      @hotel.reservations.count.must_equal (reservations_before + 1)
+      @hotel.reservations.must_include reservation
+    end
   end
 end

@@ -11,6 +11,7 @@ class HotelManager::Hotel
 
   def reserve!(date_range)
     reservation = Reservation.new(date_range)
+    @reservations << reservation
 
     return reservation
   end
