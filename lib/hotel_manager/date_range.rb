@@ -10,6 +10,7 @@ class HotelManager::DateRange < Range
       raise ArgumentError.new("End date must be on or after begin date for DateRange")
     end
 
-    super(begin_date, end_date)
+    exclude_end = true
+    super(begin_date, end_date, exclude_end)
   end
 end

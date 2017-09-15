@@ -51,5 +51,9 @@ describe DateRange do
       @range.include?(@begin - 1).must_equal false
       @range.include?(@end + 1).must_equal false
     end
+
+    it "returns false if the given date is the end date" do
+      @range.include?(@end).must_equal false
+    end
   end
 end
