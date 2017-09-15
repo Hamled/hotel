@@ -10,4 +10,8 @@ class HotelManager::Reservation
   def nights
     date_range.count
   end
+
+  def cost
+    nights * ROOM_COST
+  end
 end

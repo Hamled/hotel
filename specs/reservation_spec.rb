@@ -31,4 +31,14 @@ describe Reservation do
       reservation.nights.must_equal 0
     end
   end
+
+  describe "#cost" do
+    ROOM_COST = 200 # Change if HotelManager::ROOM_COST changes
+
+    it "returns the total cost of the reservation" do
+      expected_cost = @nights * ROOM_COST
+
+      @reservation.cost.must_equal expected_cost
+    end
+  end
 end
