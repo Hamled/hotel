@@ -40,5 +40,12 @@ describe Reservation do
 
       @reservation.cost.must_equal expected_cost
     end
+
+    it "returns a minimum of one night's cost" do
+      range = DateRange.new(@begin, @begin)
+      reservation = Reservation.new(range)
+
+      reservation.cost.must_equal ROOM_COST
+    end
   end
 end

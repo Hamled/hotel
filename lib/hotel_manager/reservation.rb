@@ -12,6 +12,6 @@ class HotelManager::Reservation
   end
 
   def cost
-    nights * ROOM_COST
+    [1, nights].max * ROOM_COST
   end
 end
