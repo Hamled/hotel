@@ -10,5 +10,10 @@ describe Reservation do
     it "stores a date range" do
       @reservation.date_range.must_equal @range
     end
+
+    it "raises ArgumentError if a DateRange is not provided" do
+      proc{ Reservation.new(nil) }.must_raise ArgumentError
+      proc{ Reservation.new(5) }.must_raise ArgumentError
+    end
   end
 end
