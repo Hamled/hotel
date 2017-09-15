@@ -15,6 +15,7 @@ class HotelManager::DateRange < Range
   end
 
   def overlap?(date_range)
+    raise ArgumentError.new("DateRange#overlap? must be passed another DateRange") unless date_range.is_a? DateRange
     include?(date_range.begin) || date_range.include?(self.begin)
   end
 end

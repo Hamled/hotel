@@ -80,5 +80,11 @@ describe DateRange do
         @range.overlap?(no_overlapping).must_equal false
       end
     end
+
+    it "raises ArgumentError if a DateRange is not provided" do
+      proc{ @range.overlap? nil }.must_raise ArgumentError
+      proc{ @range.overlap? "hello" }.must_raise ArgumentError
+      proc{ @range.overlap? 5 }.must_raise ArgumentError
+    end
   end
 end
