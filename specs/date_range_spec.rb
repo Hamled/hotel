@@ -33,4 +33,23 @@ describe DateRange do
       proc{ DateRange.new(valid_begin, invalid_end) }.must_raise ArgumentError
     end
   end
+
+  describe "#include?" do
+    before do
+      @begin = Date.today
+      @days = 3
+      @end = @begin + @days
+
+      @range = DateRange.new(@begin, @end)
+    end
+
+    it "returns true if the given date is within the range" do
+      @range.include?(@begin + (@days - 1)).must_equal true
+    end
+
+    it "returns false if the given date is not within the range" do
+      @range.include?(@begin - 1).must_equal false
+      @range.include?(@end + 1).must_equal false
+    end
+  end
 end
