@@ -22,6 +22,13 @@ describe Reservation do
       proc{ Reservation.new(nil, @room) }.must_raise ArgumentError
       proc{ Reservation.new(5, @room) }.must_raise ArgumentError
     end
+
+    it "raises ArgumentError if a valid room number is not provided" do
+      proc{ Reservation.new(@range, nil) }.must_raise ArgumentError
+      proc{ Reservation.new(@range, "hello") }.must_raise ArgumentError
+      proc{ Reservation.new(@range, -1) }.must_raise ArgumentError
+      proc{ Reservation.new(@range, 0) }.must_raise ArgumentError
+    end
   end
 
   describe "#nights" do

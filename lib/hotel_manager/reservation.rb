@@ -3,6 +3,9 @@ class HotelManager::Reservation
 
   def initialize(date_range, room)
     raise ArgumentError.new("Reservation.new must be called with a DateRange") unless date_range.is_a? DateRange
+    unless room.is_a?(Integer) && room.positive?
+      raise ArgumentError.new("Reservation.new must be called with a valid room number")
+    end
 
     @date_range = date_range
     @room = room
