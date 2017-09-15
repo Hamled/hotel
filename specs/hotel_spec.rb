@@ -43,5 +43,10 @@ describe Hotel do
       @hotel.reservations.count.must_equal (reservations_before + 1)
       @hotel.reservations.must_include reservation
     end
+
+    it "raises ArgumentError if a DateRange is not provided" do
+      proc{ @hotel.reserve!(nil) }.must_raise ArgumentError
+      proc{ @hotel.reserve!(5) }.must_raise ArgumentError
+    end
   end
 end
