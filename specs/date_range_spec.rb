@@ -1,14 +1,15 @@
 require_relative 'spec_helper'
 
 describe DateRange do
+  before do
+    @begin = Date.today
+    @days = 3
+    @end = @begin + @days
+
+    @range = DateRange.new(@begin, @end)
+  end
+
   describe "#initialize" do
-    before do
-      @begin = Date.today
-      @end = Date.today + 3
-
-      @range = DateRange.new(@begin, @end)
-    end
-
     it "stores a begin and end date" do
       @range.begin.must_equal @begin
     end
@@ -35,14 +36,6 @@ describe DateRange do
   end
 
   describe "#include?" do
-    before do
-      @begin = Date.today
-      @days = 3
-      @end = @begin + @days
-
-      @range = DateRange.new(@begin, @end)
-    end
-
     it "returns true if the given date is within the range" do
       @range.include?(@begin + (@days - 1)).must_equal true
     end
