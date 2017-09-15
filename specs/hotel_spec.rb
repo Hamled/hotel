@@ -22,4 +22,17 @@ describe Hotel do
       @hotel.reservations.empty?.must_equal true
     end
   end
+
+  describe "#reserve!" do
+    before do
+      @range = DateRange.new(Date.today, Date.today + 3)
+    end
+
+    it "returns a new Reservation for the given date range" do
+      reservation = @hotel.reserve!(@range)
+
+      reservation.must_be_kind_of Reservation
+      reservation.date_range.must_equal @range
+    end
+  end
 end
