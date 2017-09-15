@@ -15,6 +15,12 @@ class HotelManager::Reservation
     date_range.count
   end
 
+  # In Rails (or anything with ActiveSupport) this could be simplified to:
+  # delegate :overlap?, to: :date_range
+  def overlap?(other_range)
+    date_range.overlap? other_range
+  end
+
   def cost
     [1, nights].max * ROOM_COST
   end

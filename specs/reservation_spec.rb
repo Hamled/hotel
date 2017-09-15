@@ -4,7 +4,8 @@ describe Reservation do
   before do
     @begin = Date.today
     @nights = 3
-    @range = DateRange.new(@begin, @begin + @nights)
+    @end = @begin + @nights
+    @range = DateRange.new(@begin, @end)
     @room = 1
     @reservation = Reservation.new(@range, @room)
   end
@@ -58,6 +59,44 @@ describe Reservation do
       reservation = Reservation.new(range, @room)
 
       reservation.cost.must_equal ROOM_COST
+    end
+  end
+
+  describe "#overlap?" do
+    it "returns true if the given date range overlaps this reservation" do
+      overlaps = [
+        [@begin    , @end    ], # Overlapping exactly
+        [@begin - 1, @end - 1], # Overlapping beginning
+        [@begin + 1, @end + 1], # Overlapping end
+        [@begin + 1, @end - 1], # Overlapping subset
+        [@begin - 1, @end + 1], # Overlapping superset
+      ]
+
+      overlaps.each do |(begin_date, end_date)|
+        overlapping = DateRange.new(begin_date, end_date)
+
+        @reservation.overlap?(overlapping).must_equal true
+      end
+    end
+
+    it "returns false if the given date range does not overlap this reservation" do
+      no_overlaps = [
+        [@begin - 3, @begin - 1], # Non-overlapping earlier
+        [@end   + 1, @end   + 3], # Non-overlapping later
+        [@end      , @end   + 3], # Non-overlapping starting on end date
+      ]
+
+      no_overlaps.each do |(begin_date, end_date)|
+        no_overlapping = DateRange.new(begin_date, end_date)
+
+        @reservation.overlap?(no_overlapping).must_equal false
+      end
+    end
+
+    it "raises ArgumentError if a DateRange is not provided" do
+      proc{ @reservation.overlap? nil }.must_raise ArgumentError
+      proc{ @reservation.overlap? "hello" }.must_raise ArgumentError
+      proc{ @reservation.overlap? 5 }.must_raise ArgumentError
     end
   end
 end
