@@ -6,4 +6,8 @@ class HotelManager::Reservation
 
     @date_range = date_range
   end
+
+  def nights
+    date_range.count
+  end
 end
