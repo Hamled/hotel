@@ -49,4 +49,58 @@ describe Hotel do
       proc{ @hotel.reserve!(5) }.must_raise ArgumentError
     end
   end
+
+  describe "#availability" do
+    before do
+      @range = DateRange.new(Date.today, Date.today + 3)
+    end
+
+    it "returns a collection of rooms that are available for the given date range" do
+      # No reservations have been made yet
+      @hotel.availability(@range).must_equal @hotel.rooms
+
+      # After making reservations
+      20.times do |i|
+        @hotel.reserve!(@range)
+        @hotel.availability(@range).count.must_equal @hotel.rooms.count - (i + 1)
+      end
+    end
+
+    it "ignores reservations that do not overlap the given date range" do
+      @hotel.availability(@range).must_equal @hotel.rooms
+
+      range_before = DateRange.new(@range.begin - 3, @range.begin - 1)
+      20.times do |i|
+        @hotel.reserve!(range_before)
+        @hotel.availability(@range).must_equal @hotel.rooms
+      end
+
+      range_after = DateRange.new(@range.end, @range.end + 3)
+      20.times do |i|
+        @hotel.reserve!(range_after)
+        @hotel.availability(@range).must_equal @hotel.rooms
+      end
+    end
+
+    # TODO: This should probably be cleaned up
+    it "considers reservations that overlap the given date range" do
+      @hotel.availability(@range).must_equal @hotel.rooms
+
+      overlap_before = DateRange.new(@range.begin - 1, @range.end - 1)
+      @hotel.reserve!(overlap_before)
+      @hotel.availability(@range).count.must_equal @hotel.rooms.count - 1
+
+      overlap_after = DateRange.new(@range.begin + 1, @range.end + 1)
+      @hotel.reserve!(overlap_after)
+      @hotel.availability(@range).count.must_equal @hotel.rooms.count - 2
+
+      overlap_subset = DateRange.new(@range.begin + 1, @range.end - 1)
+      @hotel.reserve!(overlap_subset)
+      @hotel.availability(@range).count.must_equal @hotel.rooms.count - 3
+
+      overlap_superset = DateRange.new(@range.begin - 1, @range.end + 1)
+      @hotel.reserve!(overlap_superset)
+      @hotel.availability(@range).count.must_equal @hotel.rooms.count - 4
+    end
+  end
 end
