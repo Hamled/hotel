@@ -27,5 +27,9 @@ describe BlockReservation do
       proc{ BlockReservation.new(@range, -1) }.must_raise ArgumentError
       proc{ BlockReservation.new(@range, 0) }.must_raise ArgumentError
     end
+
+    it "raises ArgumentError if given an empty collection of room numbers" do
+      proc{ BlockReservation.new(@range, []) }.must_raise ArgumentError
+    end
   end
 end
