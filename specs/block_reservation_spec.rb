@@ -20,5 +20,12 @@ describe BlockReservation do
       proc{ BlockReservation.new(nil, @room) }.must_raise ArgumentError
       proc{ BlockReservation.new(5, @room) }.must_raise ArgumentError
     end
+
+    it "raises ArgumentError if a collection of room numbers is not provided" do
+      proc{ BlockReservation.new(@range, nil) }.must_raise ArgumentError
+      proc{ BlockReservation.new(@range, "hello") }.must_raise ArgumentError
+      proc{ BlockReservation.new(@range, -1) }.must_raise ArgumentError
+      proc{ BlockReservation.new(@range, 0) }.must_raise ArgumentError
+    end
   end
 end
