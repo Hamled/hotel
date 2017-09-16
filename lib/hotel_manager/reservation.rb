@@ -19,4 +19,8 @@ class HotelManager::Reservation
   def cost
     [1, nights].max * ROOM_COST
   end
+
+  def self.valid_room?(room)
+    room.is_a?(Integer) && room.positive?
+  end
 end

@@ -4,7 +4,7 @@ class HotelManager::SingleReservation < HotelManager::Reservation
   def initialize(date_range, room)
     super(date_range)
 
-    unless room.is_a?(Integer) && room.positive?
+    unless Reservation::valid_room? room
       raise ArgumentError.new("SingleReservation.new must be called with a valid room number")
     end
 

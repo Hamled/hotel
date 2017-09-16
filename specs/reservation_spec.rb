@@ -87,4 +87,18 @@ describe Reservation do
       proc{ @reservation.overlap? 5 }.must_raise ArgumentError
     end
   end
+
+  describe ".valid_room?" do
+    it "returns true when given a positive integer" do
+      (1..100).each do |room|
+        Reservation.valid_room?(room).must_equal true
+      end
+    end
+
+    it "returns false when not given a positive integer" do
+      [nil, "hello", 0, -1].each do |room|
+        Reservation.valid_room?(room).must_equal false
+      end
+    end
+  end
 end

@@ -13,7 +13,7 @@ class HotelManager::BlockReservation < HotelManager::Reservation
     end
 
     rooms.each do |room|
-      unless room.is_a?(Integer) && room.positive?
+      unless Reservation::valid_room? room
         raise ArgumentError.new("Invalid room number #{room} passed to BlockReservation.new")
       end
     end
