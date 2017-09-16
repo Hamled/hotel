@@ -17,7 +17,7 @@ class HotelManager::Hotel
     room = available_room(date_range)
     raise NoAvailableRoomError.new("There are no rooms available for this date range (#{date_range})") if room.nil?
 
-    reservation = Reservation.new(date_range, room)
+    reservation = SingleReservation.new(date_range, room)
     @reservations << reservation
 
     return reservation

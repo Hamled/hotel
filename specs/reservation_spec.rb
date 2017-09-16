@@ -6,8 +6,7 @@ describe Reservation do
     @nights = 3
     @end = @begin + @nights
     @range = DateRange.new(@begin, @end)
-    @room = 1
-    @reservation = Reservation.new(@range, @room)
+    @reservation = Reservation.new(@range)
   end
 
   describe "#initialize" do
@@ -15,20 +14,9 @@ describe Reservation do
       @reservation.date_range.must_equal @range
     end
 
-    it "stores a room number" do
-      @reservation.room.must_equal @room
-    end
-
     it "raises ArgumentError if a DateRange is not provided" do
-      proc{ Reservation.new(nil, @room) }.must_raise ArgumentError
-      proc{ Reservation.new(5, @room) }.must_raise ArgumentError
-    end
-
-    it "raises ArgumentError if a valid room number is not provided" do
-      proc{ Reservation.new(@range, nil) }.must_raise ArgumentError
-      proc{ Reservation.new(@range, "hello") }.must_raise ArgumentError
-      proc{ Reservation.new(@range, -1) }.must_raise ArgumentError
-      proc{ Reservation.new(@range, 0) }.must_raise ArgumentError
+      proc{ Reservation.new(nil) }.must_raise ArgumentError
+      proc{ Reservation.new(5) }.must_raise ArgumentError
     end
   end
 
@@ -39,7 +27,7 @@ describe Reservation do
 
     it "returns zero if the reservation ends on the begin date" do
       range = DateRange.new(@begin, @begin)
-      reservation = Reservation.new(range, @room)
+      reservation = Reservation.new(range)
 
       reservation.nights.must_equal 0
     end
@@ -56,7 +44,7 @@ describe Reservation do
 
     it "returns a minimum of one night's cost" do
       range = DateRange.new(@begin, @begin)
-      reservation = Reservation.new(range, @room)
+      reservation = Reservation.new(range)
 
       reservation.cost.must_equal ROOM_COST
     end
