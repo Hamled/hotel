@@ -31,5 +31,13 @@ describe BlockReservation do
     it "raises ArgumentError if given an empty collection of room numbers" do
       proc{ BlockReservation.new(@range, []) }.must_raise ArgumentError
     end
+
+    it "raises ArgumentError if any room number is invalid" do
+      @rooms.count.times do |n|
+        rooms = @rooms.map.with_index { |r, i| r unless i == n }
+
+        proc{ BlockReservation.new(@range, rooms) }.must_raise ArgumentError
+      end
+    end
   end
 end

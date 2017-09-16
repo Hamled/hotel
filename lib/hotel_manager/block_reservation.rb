@@ -12,6 +12,12 @@ class HotelManager::BlockReservation < HotelManager::Reservation
       raise ArgumentError.new("BlockReservation.new must be given a collection of at least one room number")
     end
 
+    rooms.each do |room|
+      unless room.is_a?(Integer) && room.positive?
+        raise ArgumentError.new("Invalid room number #{room} passed to BlockReservation.new")
+      end
+    end
+
     @rooms = rooms
   end
 end
