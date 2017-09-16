@@ -48,6 +48,12 @@ describe Hotel do
       proc{ @hotel.reserve!(nil) }.must_raise ArgumentError
       proc{ @hotel.reserve!(5) }.must_raise ArgumentError
     end
+
+    it "raises NoAvailableRoomError if all rooms are reserved for the given date range" do
+      20.times { @hotel.reserve!(@range) }
+
+      proc{ @hotel.reserve!(@range) }.must_raise NoAvailableRoomError
+    end
   end
 
   describe "#availability" do
