@@ -10,4 +10,8 @@ class HotelManager::SingleReservation < HotelManager::Reservation
 
     @room = room
   end
+
+  def rooms
+    [@room]
+  end
 end

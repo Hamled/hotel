@@ -28,4 +28,18 @@ describe SingleReservation do
       proc{ SingleReservation.new(@range, 0) }.must_raise ArgumentError
     end
   end
+
+  describe "#rooms" do
+    it "returns a collection with the room number" do
+      @reservation.rooms.must_be_kind_of Enumerable
+      @reservation.rooms.count.must_equal 1
+      @reservation.rooms.must_include @room
+    end
+
+    it "returns only valid room numbers" do
+      @reservation.rooms.each do |room|
+        Reservation.valid_room?(room).must_equal true
+      end
+    end
+  end
 end

@@ -88,6 +88,13 @@ describe Reservation do
     end
   end
 
+  describe "#rooms" do
+    it "returns an empty collection" do
+      @reservation.rooms.must_be_kind_of Enumerable
+      @reservation.rooms.empty?.must_equal true
+    end
+  end
+
   describe ".valid_room?" do
     it "returns true when given a positive integer" do
       (1..100).each do |room|

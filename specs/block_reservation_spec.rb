@@ -40,4 +40,17 @@ describe BlockReservation do
       end
     end
   end
+
+  describe "#rooms" do
+    it "returns a collection of room numbers" do
+      @reservation.rooms.must_be_kind_of Enumerable
+      @reservation.rooms.count.must_equal @rooms.count
+    end
+
+    it "returns only valid room numbers" do
+      @reservation.rooms.each do |room|
+        Reservation.valid_room?(room).must_equal true
+      end
+    end
+  end
 end
